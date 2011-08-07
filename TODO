@@ -1,0 +1,4 @@
+
+* Program is too silent. Errors should be written to stderr,
+  to not to interfere with TrivialConsoleReporter.
+  

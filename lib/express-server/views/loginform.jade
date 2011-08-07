@@ -1,0 +1,11 @@
+html
+  head
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js')
+  body
+    form(action="/login", method="post")
+      label(for="username") Username:
+        input(type="text", name="username")
+      label(for="password") Password:
+        input(type="text", name="password")
+        input(type="submit", value="Login")
+        

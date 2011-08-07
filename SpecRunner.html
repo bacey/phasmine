@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Jasmine Spec Runner</title>
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.1.0/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="lib/jasmine-1.1.0/jasmine.css">
+  <script type="text/javascript" src="lib/jquery.js"></script>
+  <script>
+    $(document).ready(function() {
+        var outerDiv = $('div.jasmine_reporter');
+        var showPassed = $('#__jasmine_TrivialConsoleReporter_showPassed__');
+        var showSkipped = $('#__jasmine_TrivialConsoleReporter_showSkipped__');
+        
+        showPassed.click(function() {
+          outerDiv.toggleClass('show-passed');
+        });
+        
+        showSkipped.click(function() {
+          outerDiv.toggleClass('show-skipped');
+        });
+    });
+  </script>
+</head>
+
+<body>
+
+<div class="jasmine_reporter"><div class="banner"><div class="logo"><span class="title">Jasmine</span><span class="version">1.1.0 revision 1308150691</span></div><div class="options">Show <input id="__jasmine_TrivialConsoleReporter_showPassed__" type="checkbox"><label for="__jasmine_TrivialConsoleReporter_showPassed__"> passed </label><input id="__jasmine_TrivialConsoleReporter_showSkipped__" type="checkbox"><label for="__jasmine_TrivialConsoleReporter_showSkipped__"> skipped</label></div></div><div class="runner passed" classname="runner passed"><a class="run_spec" href="?">run all</a><span><a class="description" href="?">1 spec, 0 failures in 0.522s</a></span><span class="finished-at">Finished at Sun Aug 07 2011 22:03:14 GMT+0200 (CEST)</span></div><div class="suite passed"><a class="run_spec" href="?spec=Phasmine">run</a><a class="description" href="?spec=Phasmine">Phasmine</a><div class="spec passed"><a class="run_spec" href="?spec=Phasmine%20follows%20redirects.">run</a><a class="description" href="?spec=Phasmine%20follows%20redirects." title="Phasmine follows redirects.">follows redirects</a></div></div></div>
+
+</body>
+</html>
