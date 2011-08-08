@@ -39,7 +39,7 @@ Write your Jasmine spec and place it into a `.js` file (for example `JQuerySiteS
       });
     });
 
-Run it with `phantomjs phasmine.js JQuerySiteSpec.js`
+Run it with `phantomjs phasmine.js -tr JQuerySiteSpec.js`
     
 The output is in `SpecRunner.html`.
 
