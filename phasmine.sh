@@ -5,8 +5,9 @@ if [ -z "$1" ]; then
 Usage: phasmine.sh [reporter] [SPECFILE]...
 
 Reporter is one of:
-    -qcr     QasmineConsoleReporter (outputs to the console)
-    -tcr     TrivialConsoleReporter (outputs to ./SpecRunner.html) (default)
+    -cr      ConsoleReporter (outputs to the console) (default)
+    -tr      TrivialReporter (outputs to ./SpecRunner.html) 
+    -qr      QasmineReporter (outputs to the console)
 EOM
     exit 1
 fi
@@ -19,15 +20,15 @@ SPR3="lib/SpecRunner.html.3"
 SPR="SpecRunner.html"
 
 for i in $@; do
-    if [ "$i" = "-qcr" ]; then
-        MODE="qcr"
+    if [ "$i" = "-tr" ]; then
+        MODE="TrivialReporter"
     fi
 done
 
-if [ "$MODE" = "qcr" ]; then
-    $CMD $@
-else
+if [ "$MODE" = "TrivialReporter" ]; then
     $CMD $@ > $SPR2
     cat $SPR1 $SPR2 $SPR3 > $SPR
+else
+    $CMD $@
 fi
  

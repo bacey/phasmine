@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./phasmine.sh spec/JQuerySiteSpec.js
+./phasmine.sh -tr spec/JQuerySiteSpec.js
 
 echo Load ./SpecRunner.html into your browser.
 

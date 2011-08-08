@@ -4,8 +4,9 @@ if (phantom.args.length == 0) {
         "Usage: phantomjs phasmine.js [reporter] [SPECFILE]...\n" +
         "\n" +
         "Reporter is one of:\n" +
-        "\t-qcr\t\tQasmineConsoleReporter (outputs to the console)\n" +
-        "\t-tcr\t\tTrivialConsoleReporter (outputs to ./SpecRunner.html) (default)";
+        "\t-cr\t\tConsoleReporter (outputs to the console) (default)" +
+        "\t-tr\t\tTrivialReporter (outputs to ./SpecRunner.html)" +
+        "\t-qr\t\tQasmineReporter (outputs to the console)";
     
     console.log(help);
     phantom.exit(-1);
@@ -14,36 +15,38 @@ if (phantom.args.length == 0) {
 phantom.injectJs("lib/jasmine/jasmine.js");
 phantom.injectJs("lib/interact.js");
 
-var mode = 'TrivialConsoleReporter';
-var verbose = false;
+var mode = 'ConsoleReporter';
+var verboseInteract = true;
 var specFiles = [];
 var reporter;
 var jasmineEnv = jasmine.getEnv();
+var out = function(message) { console.log(message); };
 
 
 phantom.args.forEach(function (arg, i) {
-    if (arg === '-qcr') {
-        mode = 'QasmineConsoleReporter';
-    } else if (arg === '-tcr') {
-        mode = 'TrivialConsoleReporter';
+    if (arg === '-cr') {
+        mode = 'ConsoleReporter';
+    } else if (arg === '-tr') {
+        mode = 'TrivialReporter';
+    } else if (arg === '-qr') {
+        mode = 'QasmineReporter';
     } else { // arg is a specFile
         specFiles.push(arg);
     }
 });
 
-
-if (mode == 'QasmineConsoleReporter') {
-    verbose = true;
+if (mode == 'QasmineReporter') {
+    verboseInteract = true;
     phantom.injectJs("lib/jasmine-qasmine.js");
     
-    var qasmineConsoleReporter = new jasmine.QasmineConsoleReporter();
+    var qasmineConsoleReporter = new jasmine.QasmineReporter();
     qasmineConsoleReporter.verbose = true;
     reporter = qasmineConsoleReporter;
-} else { // (mode == 'TrivialConsoleReporter') {
-    verbose = false;
-    phantom.injectJs("lib/jasmine-trivialconsole.js");
+} else if (mode == 'TrivialReporter') {
+    verboseInteract = false;
+    phantom.injectJs("lib/jasmine-trivialreporter.js");
     
-    var trivialConsoleReporter = new jasmine.TrivialConsoleReporter();
+    var trivialConsoleReporter = new jasmine.TrivialReporter();
     reporter = trivialConsoleReporter;
     
     jasmineEnv.updateInterval = 1000;
@@ -51,10 +54,17 @@ if (mode == 'QasmineConsoleReporter') {
     jasmineEnv.specFilter = function(spec) {
         return trivialConsoleReporter.specFilter(spec);
     };
+} else if (mode == 'ConsoleReporter') {
+    verboseInteract = false;
+    
+    // ConsoleReporter.js is untouched, so it's in lib/jasmine
+    phantom.injectJs("lib/jasmine/ConsoleReporter.js");
+    
+    var doneCallback = function() { phantom.exit(); };
+    var consoleReporter = new jasmine.ConsoleReporter(out, doneCallback, true);
+    reporter = consoleReporter;
 }
 
-
-var out = function(message) { console.log(message); };
 
 var page = new WebPage();
 page.settings.loadImages = false;
@@ -68,7 +78,7 @@ page.onConsoleMessage = function(message) {
 
 var runActions = function(actions, spec) {
     var sign = { isFinished: false };
-    window.interact(page, actions, verbose, sign);
+    window.interact(page, actions, verboseInteract, sign);
     spec.waitsFor(function() { 
         return sign.isFinished; 
     }, 'Page never loaded!', 15000);

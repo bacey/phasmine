@@ -1,4 +1,12 @@
 
+## BUGS
+
+* Stacktraces are not printed if a spec fails.
+
+## TODO
+
 * Program is too silent. Errors should be written to stderr,
-  to not to interfere with TrivialConsoleReporter.
-  
+  to not to interfere with TrivialReporter.
+* Better argument-handling.
+
+
