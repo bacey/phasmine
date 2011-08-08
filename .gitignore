@@ -5,3 +5,6 @@ tmp/**/*
 \#*
 
 *~
+
+# I ran: git update-index --assume-unchanged ./SpecRunner.html
+# Undo:  git update-index --no-assume-unchanged ./SpecRunner.html
