@@ -12,8 +12,8 @@ if (phantom.args.length == 0) {
     phantom.exit(-1);
 }
 
-phantom.injectJs("lib/jasmine/jasmine.js");
-phantom.injectJs("lib/interact.js");
+phantom.injectJs('lib/jasmine/jasmine.js');
+phantom.injectJs('lib/interact.js');
 
 var mode = 'ConsoleReporter';
 var verboseInteract = true;
@@ -37,14 +37,14 @@ phantom.args.forEach(function (arg, i) {
 
 if (mode == 'QasmineReporter') {
     verboseInteract = true;
-    phantom.injectJs("lib/jasmine-qasmine.js");
+    phantom.injectJs('lib/jasmine-qasmine.js');
     
     var qasmineConsoleReporter = new jasmine.QasmineReporter();
     qasmineConsoleReporter.verbose = true;
     reporter = qasmineConsoleReporter;
 } else if (mode == 'TrivialReporter') {
     verboseInteract = false;
-    phantom.injectJs("lib/jasmine-trivialreporter.js");
+    phantom.injectJs('lib/jasmine-trivialreporter.js');
     
     var trivialConsoleReporter = new jasmine.TrivialReporter();
     reporter = trivialConsoleReporter;
@@ -56,10 +56,7 @@ if (mode == 'QasmineReporter') {
     };
 } else if (mode == 'ConsoleReporter') {
     verboseInteract = false;
-    
-    // ConsoleReporter.js is untouched, so it's in lib/jasmine
-    phantom.injectJs("lib/jasmine/ConsoleReporter.js");
-    
+    phantom.injectJs('lib/ConsoleReporter.js');
     var doneCallback = function() { phantom.exit(); };
     var consoleReporter = new jasmine.ConsoleReporter(out, doneCallback, true);
     reporter = consoleReporter;
@@ -70,7 +67,7 @@ var page = new WebPage();
 page.settings.loadImages = false;
 page.settings.loadPlugins = false;
 page.onConsoleMessage = function(message) {
-  if (message.indexOf("Unsafe JavaScript") === 0) {
+  if (message.indexOf('Unsafe JavaScript') === 0) {
     return;
   }
   return out(message);

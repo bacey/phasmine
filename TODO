@@ -1,8 +1,6 @@
 
 ## BUGS
 
-* Stacktraces are not printed if a spec fails.
-
 ## TODO
 
 * Program is too silent. Errors should be written to stderr,
